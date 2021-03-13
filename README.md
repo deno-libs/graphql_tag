@@ -1,2 +1,3 @@
 # graphql-tag
-🦕 Deno port of `graphql-tag` library
+
+🦕 Deno port of `graphql-tag` library.
