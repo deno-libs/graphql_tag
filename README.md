@@ -29,7 +29,7 @@ console.log(await graphql(schema, query, resolvers))
 ```
 
 [releases]: https://img.shields.io/github/v/release/deno-libs/graphql-tag?style=flat-square
-[docs-badge]: https://img.shields.io/github/v/release/deno-libs/graphql_tag?color=yellow&label=Documentation&logo=deno&style=flat-square
+[docs-badge]: https://img.shields.io/github/v/release/deno-libs/graphql-tag?color=yellow&label=Documentation&logo=deno&style=flat-square
 [docs]: https://doc.deno.land/https/deno.land/x/graphql_tag/mod.ts
 [releases-page]: https://github.com/deno-libs/graphql-tag/releases
 [gh-actions-img]: https://img.shields.io/github/workflow/status/deno-libs/graphql-tag/CI?style=flat-square
