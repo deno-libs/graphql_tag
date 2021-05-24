@@ -1,5 +1,5 @@
-import { DocumentNode, buildASTSchema, isSchema } from 'https://deno.land/x/graphql_deno@v15.0.0/mod.ts'
-import { describe, it, run, expect } from 'https://deno.land/x/wizard@0.1.3/mod.ts'
+import { buildASTSchema, isSchema } from 'https://deno.land/x/graphql_deno@v15.0.0/mod.ts'
+import { it, expect, run } from 'https://deno.land/x/tincan/mod.ts'
 import { gql } from './mod.ts'
 
 const typeDefs = gql`
