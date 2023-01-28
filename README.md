@@ -25,7 +25,7 @@ const resolvers = { hello: () => 'world' }
 
 const schema = buildASTSchema(typeDefs)
 
-console.log(await graphql(schema, query, resolvers))
+console.log(await graphql({ schema, source: query, rootValue: resolvers }))
 ```
 
 [releases]: https://img.shields.io/github/v/release/deno-libs/graphql-tag?style=flat-square
