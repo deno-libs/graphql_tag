@@ -1,4 +1,4 @@
-import { buildASTSchema, graphql } from 'https://deno.land/x/graphql_deno@v15.0.0/mod.ts'
+import { buildASTSchema, graphql } from 'https://esm.sh/graphql@16.6.0'
 import { gql } from './mod.ts'
 
 const typeDefs = gql`
@@ -19,4 +19,4 @@ const resolvers = {
 
 const schema = buildASTSchema(typeDefs)
 
-console.log(await graphql(schema, query, resolvers))
+console.log(await graphql({ schema, source: query, rootValue: resolvers }))

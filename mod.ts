@@ -1,5 +1,4 @@
-import { parse, DocumentNode, DefinitionNode, Location } from 'https://deno.land/x/graphql_deno@v15.0.0/mod.ts'
-
+import { parse, Location, DefinitionNode, DocumentNode } from './deps.ts'
 // A map docString -> graphql document
 const docCache = new Map<string, DocumentNode>()
 
@@ -7,7 +6,7 @@ const docCache = new Map<string, DocumentNode>()
 const fragmentSourceMap = new Map<string, Set<string>>()
 
 let printFragmentWarnings = true
-let experimentalFragmentVariables = false
+let allowLegacyFragmentVariables = false
 
 // Strip insignificant whitespace
 // Note that this could do a lot more, such as reorder fields etc.
@@ -92,7 +91,7 @@ function parseDocument(source: string) {
   var cacheKey = normalize(source)
   if (!docCache.has(cacheKey)) {
     const parsed = parse(source, {
-      experimentalFragmentVariables
+      allowLegacyFragmentVariables
     })
     if (!parsed || parsed.kind !== 'Document') {
       throw new Error('Not a valid GraphQL document.')
@@ -159,9 +158,9 @@ export function disableFragmentWarnings() {
 }
 
 export function enableExperimentalFragmentVariables() {
-  experimentalFragmentVariables = true
+  allowLegacyFragmentVariables = true
 }
 
 export function disableExperimentalFragmentVariables() {
-  experimentalFragmentVariables = false
+  allowLegacyFragmentVariables = false
 }
