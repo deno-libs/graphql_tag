@@ -18,12 +18,6 @@
       "lineWidth": 120
     }
   },
-  "imports": {
-    "solc": "./mod.ts",
-    "solc/download": "./download.ts",
-    "solc/types": "./types.ts",
-    "solc/env": "./env.ts"
-  },
   "test": {
     "files": {
       "exclude": ["./**/*.js", "examples"]
