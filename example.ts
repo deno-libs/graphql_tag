@@ -14,7 +14,7 @@ const query = `
 `
 
 const resolvers = {
-  hello: () => 'world'
+  hello: () => 'world',
 }
 
 const schema = buildASTSchema(typeDefs)

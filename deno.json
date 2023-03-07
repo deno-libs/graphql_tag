@@ -1,0 +1,36 @@
+{
+  "lint": {
+    "files": {
+      "include": ["./**/*.ts"],
+      "exclude": ["./**/*.js"]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": ["./**/*.ts", "./**/*.md", "./**/*.json"],
+      "exclude": ["./**/*.js"]
+    },
+    "options": {
+      "singleQuote": true,
+      "semiColons": false,
+      "useTabs": false,
+      "indentWidth": 2,
+      "lineWidth": 120
+    }
+  },
+  "imports": {
+    "solc": "./mod.ts",
+    "solc/download": "./download.ts",
+    "solc/types": "./types.ts",
+    "solc/env": "./env.ts"
+  },
+  "test": {
+    "files": {
+      "exclude": ["./**/*.js", "examples"]
+    }
+  },
+  "tasks": {
+    "test": "deno test --no-check --allow-net --allow-read --allow-write --coverage=coverage",
+    "cov": "deno coverage coverage --lcov > coverage.lcov"
+  }
+}

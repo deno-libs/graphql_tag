@@ -1,4 +1,4 @@
-import { parse, Location, DefinitionNode, DocumentNode } from './deps.ts'
+import { DefinitionNode, DocumentNode, Location, parse } from './deps.ts'
 // A map docString -> graphql document
 const docCache = new Map<string, DocumentNode>()
 
@@ -78,7 +78,7 @@ function stripLoc(doc: DocumentNode) {
     })
   })
 
-  const loc = doc.loc as Record<string, any>
+  const loc = doc.loc as { startToken: unknown; endToken: unknown }
   if (loc) {
     delete loc.startToken
     delete loc.endToken
@@ -120,7 +120,7 @@ function parseDocument(source: string) {
  *  type Query {
  *    hello: String
  *  }
- *`
+ * `
  *
  * const query = `{ hello }`
  *
