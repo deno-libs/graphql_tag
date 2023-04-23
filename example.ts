@@ -1,5 +1,5 @@
-import { graphql } from 'https://esm.sh/graphql@16.6.0'
-import { buildASTSchema } from 'https://esm.sh/graphql@16.6.0/utilities'
+import { graphql } from 'https://esm.sh/graphql@16.6.0#='
+import { buildASTSchema } from 'https://esm.sh/graphql@16.6.0/utilities#='
 import { gql } from './mod.ts'
 
 const typeDefs = gql`
