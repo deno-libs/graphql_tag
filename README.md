@@ -1,7 +1,7 @@
 # graphql-tag
 
-[![GitHub release (latest by date)][releases]][releases-page] [![GitHub Workflow Status][gh-actions-img]][github-actions]
-[![Codecov][codecov-badge]][codecov] [![][docs-badge]][docs]
+[![GitHub release (latest by date)][releases]][releases-page]
+[![GitHub Workflow Status][gh-actions-img]][github-actions] [![Codecov][codecov-badge]][codecov] [![][docs-badge]][docs]
 
 > 🦕 Deno port of [graphql-tag](https://github.com/apollographql/graphql-tag) library.
 

@@ -1,4 +1,7 @@
-import { DefinitionNode, DocumentNode, Location, parse } from './deps.ts'
+import { parse } from './deps.ts'
+
+import type { DefinitionNode, DocumentNode, Location } from './deps.ts'
+
 // A map docString -> graphql document
 const docCache = new Map<string, DocumentNode>()
 
@@ -37,15 +40,13 @@ function processFragments(ast: DocumentNode) {
         // the same name as one previously registered. So, we tell them about it.
         if (printFragmentWarnings) {
           console.warn(
-            'Warning: fragment with name ' +
-              fragmentName +
-              ' already exists.\n' +
+            'Warning: fragment with name ' + fragmentName + ' already exists.\n' +
               'graphql-tag enforces all fragment names across your application to be unique; read more about\n' +
-              'this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names'
+              'this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names',
           )
         }
       } else if (!sourceKeySet) {
-        fragmentSourceMap.set(fragmentName, (sourceKeySet = new Set()))
+        fragmentSourceMap.set(fragmentName, sourceKeySet = new Set())
       }
 
       sourceKeySet.add(sourceKey)
@@ -61,37 +62,37 @@ function processFragments(ast: DocumentNode) {
 
   return {
     ...ast,
-    definitions
+    definitions,
   }
 }
 
 function stripLoc(doc: DocumentNode) {
-  const workSet = new Set<Record<string, any>>(doc.definitions)
+  const workSet = new Set<DefinitionNode>(doc.definitions)
 
   workSet.forEach((node) => {
-    if (node.loc) delete node.loc
+    if (node.loc) Reflect.deleteProperty(node, 'loc')
     Object.keys(node).forEach((key) => {
-      const value = node[key]
+      const value = node[key as keyof DefinitionNode]
       if (value && typeof value === 'object') {
-        workSet.add(value)
+        workSet.add(value as unknown as DefinitionNode)
       }
     })
   })
 
-  const loc = doc.loc as { startToken: unknown; endToken: unknown }
+  const loc = doc.loc
   if (loc) {
-    delete loc.startToken
-    delete loc.endToken
+    Reflect.deleteProperty(loc, 'startToken');
+    Reflect.deleteProperty(loc, 'endToken');
   }
 
   return doc
 }
 
 function parseDocument(source: string) {
-  var cacheKey = normalize(source)
+  const cacheKey = normalize(source)
   if (!docCache.has(cacheKey)) {
     const parsed = parse(source, {
-      allowLegacyFragmentVariables
+      allowLegacyFragmentVariables,
     })
     if (!parsed || parsed.kind !== 'Document') {
       throw new Error('Not a valid GraphQL document.')
@@ -100,36 +101,17 @@ function parseDocument(source: string) {
       cacheKey,
       // check that all "new" fragments inside the documents are consistent with
       // existing fragments of the same name
-      stripLoc(processFragments(parsed))
+      stripLoc(processFragments(parsed)),
     )
   }
   return docCache.get(cacheKey)!
 }
 
-/**
- * Create a GraphQL AST from template literal
- * @param literals
- * @param args
- *
- * @example
- * ```ts
- * import { buildASTSchema, graphql } from 'https://deno.land/x/graphql_deno@v15.0.0/mod.ts'
- * import { gql } from 'https://deno.land/x/graphql_tag/mod.ts'
- *
- * const typeDefs = gql`
- *  type Query {
- *    hello: String
- *  }
- * `
- *
- * const query = `{ hello }`
- *
- * const resolvers = { hello: () => 'world' }
- *
- * console.log(await graphql(buildASTSchema(typeDefs), query, resolvers))
- * ```
- */
-export function gql(literals: string | readonly string[], ...args: any[]) {
+// XXX This should eventually disallow arbitrary string interpolation, like Relay does
+export function gql(
+  literals: string | readonly string[],
+  ...args: DocumentNode[]
+) {
   if (typeof literals === 'string') {
     literals = [literals]
   }
@@ -138,7 +120,7 @@ export function gql(literals: string | readonly string[], ...args: any[]) {
 
   args.forEach((arg, i) => {
     if (arg && arg.kind === 'Document') {
-      result += arg.loc.source.body
+      result += arg.loc!.source.body
     } else {
       result += arg
     }
