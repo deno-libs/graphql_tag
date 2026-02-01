@@ -20,6 +20,10 @@ deno fmt
 
 # Lint code
 deno lint
+
+# Publish to JSR (dry-run first)
+deno publish --dry-run
+deno publish
 ```
 
 ## Code Style
@@ -37,6 +41,6 @@ deno lint
 - AST location stripping for memory efficiency
 - Utility functions: `resetCaches()`, `disableFragmentWarnings()`, `enableExperimentalFragmentVariables()`
 
-**deps.ts** - External dependencies from esm.sh (GraphQL 16.8.1)
+**deps.ts** - GraphQL 16.12.0 via npm: specifier
 
 **mod_test.ts** - Tests using tincan framework

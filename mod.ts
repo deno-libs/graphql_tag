@@ -111,7 +111,7 @@ function parseDocument(source: string) {
 export function gql(
   literals: string | readonly string[],
   ...args: DocumentNode[]
-) {
+): DocumentNode {
   if (typeof literals === 'string') {
     literals = [literals]
   }
@@ -130,19 +130,19 @@ export function gql(
   return parseDocument(result)
 }
 
-export function resetCaches() {
+export function resetCaches(): void {
   docCache.clear()
   fragmentSourceMap.clear()
 }
 
-export function disableFragmentWarnings() {
+export function disableFragmentWarnings(): void {
   printFragmentWarnings = false
 }
 
-export function enableExperimentalFragmentVariables() {
+export function enableExperimentalFragmentVariables(): void {
   allowLegacyFragmentVariables = true
 }
 
-export function disableExperimentalFragmentVariables() {
+export function disableExperimentalFragmentVariables(): void {
   allowLegacyFragmentVariables = false
 }
