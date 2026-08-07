@@ -9,7 +9,7 @@ const docCache = new Map<string, DocumentNode>()
 const fragmentSourceMap = new Map<string, Set<string>>()
 
 let printFragmentWarnings = true
-let allowLegacyFragmentVariables = false
+let experimentalFragmentArguments = false
 
 // Strip insignificant whitespace
 // Note that this could do a lot more, such as reorder fields etc.
@@ -81,8 +81,8 @@ function stripLoc(doc: DocumentNode) {
 
   const loc = doc.loc
   if (loc) {
-    Reflect.deleteProperty(loc, 'startToken');
-    Reflect.deleteProperty(loc, 'endToken');
+    Reflect.deleteProperty(loc, 'startToken')
+    Reflect.deleteProperty(loc, 'endToken')
   }
 
   return doc
@@ -92,7 +92,7 @@ function parseDocument(source: string) {
   const cacheKey = normalize(source)
   if (!docCache.has(cacheKey)) {
     const parsed = parse(source, {
-      allowLegacyFragmentVariables,
+      experimentalFragmentArguments,
     })
     if (!parsed || parsed.kind !== 'Document') {
       throw new Error('Not a valid GraphQL document.')
@@ -139,10 +139,25 @@ export function disableFragmentWarnings(): void {
   printFragmentWarnings = false
 }
 
-export function enableExperimentalFragmentVariables(): void {
-  allowLegacyFragmentVariables = true
+/**
+ * Parse fragment variable definitions and fragment spread arguments.
+ *
+ * graphql 17 replaced the old `allowLegacyFragmentVariables` parser option with
+ * `experimentalFragmentArguments`, which additionally understands arguments on
+ * fragment spreads (`...A(var: true)`).
+ */
+export function enableExperimentalFragmentArguments(): void {
+  experimentalFragmentArguments = true
 }
 
-export function disableExperimentalFragmentVariables(): void {
-  allowLegacyFragmentVariables = false
+export function disableExperimentalFragmentArguments(): void {
+  experimentalFragmentArguments = false
 }
+
+/** @deprecated Use {@link enableExperimentalFragmentArguments} instead. */
+export const enableExperimentalFragmentVariables: typeof enableExperimentalFragmentArguments =
+  enableExperimentalFragmentArguments
+
+/** @deprecated Use {@link disableExperimentalFragmentArguments} instead. */
+export const disableExperimentalFragmentVariables: typeof disableExperimentalFragmentArguments =
+  disableExperimentalFragmentArguments

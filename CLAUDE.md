@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Deno port of Apollo's graphql-tag library. Provides a `gql` template literal function that parses GraphQL schema definitions into AST DocumentNode objects with caching.
+Deno port of Apollo's graphql-tag library. Provides a `gql` template literal function that parses GraphQL schema
+definitions into AST DocumentNode objects with caching.
 
 ## Development Commands
 
@@ -35,12 +36,17 @@ deno publish
 ## Architecture
 
 **mod.ts** - Single-file library containing:
+
 - `gql()` template literal function (main export)
 - Document caching by normalized source text
 - Fragment deduplication with warnings for conflicting definitions
 - AST location stripping for memory efficiency
-- Utility functions: `resetCaches()`, `disableFragmentWarnings()`, `enableExperimentalFragmentVariables()`
+- Utility functions: `resetCaches()`, `disableFragmentWarnings()`, `enableExperimentalFragmentArguments()`
 
-**deps.ts** - GraphQL 16.12.0 via npm: specifier
+Note: graphql 17 removed the `allowLegacyFragmentVariables` parser option. It is replaced by
+`experimentalFragmentArguments`, so the exported `enable/disableExperimentalFragmentVariables` are now deprecated
+aliases of `enable/disableExperimentalFragmentArguments`.
 
-**mod_test.ts** - Tests using tincan framework
+**deps.ts** - GraphQL 17.0.2 via npm: specifier
+
+**mod_test.ts** - Tests using `@std/testing/bdd` + `@std/expect`

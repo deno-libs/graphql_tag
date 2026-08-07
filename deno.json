@@ -1,8 +1,16 @@
 {
   "name": "@deno-libs/graphql-tag",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "exports": "./mod.ts",
   "exclude": [".claude", ".github", ".vscode", "coverage"],
+  "imports": {
+    "@std/expect": "jsr:@std/expect@^1.0.20",
+    "@std/testing": "jsr:@std/testing@^1.0.20",
+    "graphql": "npm:graphql@^17.0.2"
+  },
+  "publish": {
+    "exclude": ["CLAUDE.md", "example.ts", "**/*_test.ts"]
+  },
   "lint": {
     "include": ["./**/*.ts"],
     "exclude": ["./**/*.js"]
@@ -15,7 +23,7 @@
     "lineWidth": 120
   },
   "tasks": {
-    "test": "deno test --no-check --allow-net --allow-read --allow-write --allow-env --coverage=coverage",
+    "test": "deno test --allow-net --allow-read --allow-write --allow-env --coverage=coverage",
     "cov": "deno coverage coverage --lcov > coverage.lcov"
   }
 }
